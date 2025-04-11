@@ -1,0 +1,42 @@
+<section>
+    <h2>Register</h2>
+    <form id="registerForm">
+      <div>
+        <label for="firstName">first name:</label><br>
+        <input type="text" id="firstName" name="firstName" required pattern="[A-Za-zא-ת\s]+" minlength="2">
+      </div><br>
+  
+      <div>
+        <label for="lastName">last name:</label><br>
+        <input type="text" id="lastName" name="lastName" required pattern="[A-Za-zא-ת\s]+" minlength="2">
+      </div><br>
+  
+      <div>
+        <label for="email">email:</label><br>
+        <input type="email" id="email" name="email" required>
+      </div><br>
+  
+      <div>
+        <label for="birthDate">date of birth:</label><br>
+        <input type="date" id="birthDate" name="birthDate" required>
+      </div><br>
+  
+      <div>
+        <label for="newUsername">username:</label><br>
+        <input type="text" id="newUsername" name="newUsername" required minlength="4">
+      </div><br>
+  
+      <div>
+        <label for="newPassword">password</label><br>
+        <input type="password" id="newPassword" name="newPassword" required minlength="8" pattern="^(?=.*[a-zA-Z])(?=.*\d).{8,}$">
+      </div><br>
+  
+      <div>
+        <label for="confirmPassword">confirm password</label><br>
+        <input type="password" id="confirmPassword" name="confirmPassword" required>
+      </div><br>
+  
+      <button type="submit">Register</button>
+    </form>
+  </section>
+  
