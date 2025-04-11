@@ -8,7 +8,7 @@ var TARGET_PIECES = 7; // sections in the target
 var MISS_PENALTY = 2; // seconds deducted on a miss
 var HIT_REWARD = 3; // seconds added on a hit
 var TIME_INTERVAL = 25; // screen refresh interval in milliseconds
-dfdfdfdf
+
 // variables for the game loop and tracking statistics
 var intervalTimer; // holds interval timer
 var timerCount; // number of times the timer fired since the last second
