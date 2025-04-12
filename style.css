@@ -93,4 +93,7 @@ body {
 .hidden {
   display: none;
 }
-  
+
+#gameCanvas:focus {
+  outline: none;
+}
