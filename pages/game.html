@@ -1,21 +1,19 @@
 <section>
-    <h2>The game has started!</h2>
-    <p>Use the mouse to aim the cannon and shoot at the target. Watch out for the obstacle!</p>
-  
-    <audio id="blockerSound" preload="auto">
-      <source src="blocker_hit.ogg" type="audio/ogg">
-    </audio>
-  
-    <audio id="targetSound" preload="auto">
-      <source src="target_hit.ogg" type="audio/ogg">
-    </audio>
-  
-    <audio id="cannonSound" preload="auto">
-      <source src="cannon_fire.ogg" type="audio/ogg">
-    </audio>
-  
-    <canvas id="theCanvas" width="480" height="600"></canvas>
-  
-    <p><input id="startButton" type="button" value="Start Game"></p>
-  </section>
-  
+  <h2>The game has started!</h2>
+  <p>Use the mouse to aim the cannon and shoot at the target. Watch out for the obstacle!</p>
+
+  <canvas id="gameCanvas" width="800" height="400" tabindex="0"></canvas>
+  <p style="text-align:center">
+    <span id="timerDisplay">Time left: --:--</span>
+  </p>
+
+  <p style="text-align:center">
+    <button id="startButton">התחל משחק</button>
+  </p>
+
+  <audio id="shootSound" src="cannon_fire.ogg" preload="auto"></audio>
+  <audio id="hitGoodSound" src="target_hit.ogg" preload="auto"></audio>
+  <audio id="hitBadSound" src="blocker_hit.ogg" preload="auto"></audio>
+
+  <!-- <script src="game.js"></script> -->
+</section>
