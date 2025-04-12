@@ -1,0 +1,31 @@
+<section>
+    <h2>Game Configuration</h2>
+    <form id="configForm">
+      <div>
+        <label for="shootKey">Choose your shoot key:</label><br>
+        <input type="text" id="shootKey" name="shootKey" maxlength="1" required>
+      </div>
+      <br>
+  
+      <div>
+        <label for="gameDuration">Game duration (minutes, min 2):</label><br>
+        <input type="number" id="gameDuration" name="gameDuration" min="2" required>
+      </div>
+      <br>
+  
+      <div>
+        <label for="shipColor">Ship color:</label><br>
+        <input type="color" id="shipColor" name="shipColor" value="#800080"> <!-- Purple default -->
+      </div>
+      <br>
+  
+      <div>
+        <label for="bulletColor">Bullet color:</label><br>
+        <input type="color" id="bulletColor" name="bulletColor" value="#800080">
+      </div>
+      <br>
+  
+      <button type="submit">Save and Start Game</button>
+    </form>
+  </section>
+  
