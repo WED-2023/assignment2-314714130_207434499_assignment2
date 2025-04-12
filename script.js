@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupNavigation();
   loadPage("welcome");
 });
-  
+
 function setupNavigation() {
   const links = document.querySelectorAll("nav a:not(#about-btn)");
   const aboutBtn = document.getElementById("about-btn");
@@ -46,49 +46,62 @@ function setupNavigation() {
   }
 }
 
-  let loggedInUser = null; // Variable to track the logged-in user
+let loggedInUser = null; // Variable to track the logged-in user
 
-  function loadPage(page) {
+function loadPage(page) {
 
-    if (page === "game" && !loggedInUser) {
-      alert("You must be logged in to access the game.");
-      loadPage("login"); // Redirect to the login page
-      return;
-    }
-
-    fetch(`pages/${page}.html`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Page not found");
-        }
-        return response.text();
-      })
-      .then(html => {
-        document.getElementById("content").innerHTML = html;
-          if (page === "game") {
-          loadGameScript();
-        }
-        addFormHandlers(page);
-      })
-      .catch(error => {
-        document.getElementById("content").innerHTML = `<p>שגיאה בטעינת הדף.</p>`;
-        console.error(error);
-      });
+  if (page === "game" && !loggedInUser) {
+    alert("You must be logged in to access the game.");
+    loadPage("login"); // Redirect to the login page
+    return;
   }
-  
-  
-  function loadGameScript() {
-    const script = document.createElement("script");
-    script.src = "cannon.js";
-    script.onload = () => {
-      console.log("The game is loading..");
-      if (typeof setupGame === "function") {
-        setupGame();
+
+  if (page !== "game" && typeof stopGame === "function") {
+    stopGame();
+  }
+
+  fetch(`pages/${page}.html`)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Page not found");
       }
-    };
-    document.body.appendChild(script);
-  }
-  
+      return response.text();
+    })
+    .then(html => {
+      document.getElementById("content").innerHTML = html;
+      if (page === "game") {
+        // loadGameScript();
+        loadScript("game.js");
+      }
+      addFormHandlers(page);
+    })
+    .catch(error => {
+      document.getElementById("content").innerHTML = `<p>שגיאה בטעינת הדף.</p>`;
+      console.error(error);
+    });
+}
+
+function loadScript(src) {
+  const script = document.createElement("script");
+  script.src = `${src}?v=${Date.now()}`;
+  script.defer = true;
+  document.body.appendChild(script);
+}
+
+
+
+function loadGameScript() {
+  const script = document.createElement("script");
+  script.src = "cannon.js";
+  script.onload = () => {
+    console.log("The game is loading..");
+    if (typeof setupGame === "function") {
+      setupGame();
+    }
+  };
+  document.body.appendChild(script);
+}
+
 const users = [["p", "testuser"]]; // Data structure to store registered users
 
 function addFormHandlers(page) {
@@ -99,19 +112,46 @@ function addFormHandlers(page) {
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
 
-      const userExists = users.some(([storedUsername, storedPassword]) => 
+      const userExists = users.some(([storedUsername, storedPassword]) =>
         storedUsername === username && storedPassword === password);
       // Check if the user exists in the users array
       if (userExists) {
         loggedInUser = username;
         alert("You have successfully connected!");
-        loadPage("game");
+        loadPage("config");
       } else {
         alert("Incorrect username or password");
       }
     });
-  } 
-  
+  }
+
+  else if (page === "config") {
+    const configForm = document.getElementById("configForm");
+    configForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const shootKey = document.getElementById("shootKey").value;
+      const gameDuration = parseInt(document.getElementById("gameDuration").value);
+      const shipColor = document.getElementById("shipColor").value;
+      const bulletColor = document.getElementById("bulletColor").value;
+
+      if (gameDuration < 2) {
+        alert("Minimum game duration is 2 minutes!");
+        return;
+      }
+
+      // Save config to localStorage or global variable
+      localStorage.setItem("gameConfig", JSON.stringify({
+        shootKey,
+        gameDuration,
+        shipColor,
+        bulletColor
+      }));
+
+      loadPage("game");
+    });
+  }
+
   else if (page === "register") {
     const registerForm = document.getElementById("registerForm");
     registerForm.addEventListener("submit", (e) => {
@@ -122,8 +162,8 @@ function addFormHandlers(page) {
       const confirm = document.getElementById("confirmPassword").value;
 
 
-       // Check if the username already exists in the users array
-       const usernameExists = users.some(([storedUsername]) => storedUsername === username);
+      // Check if the username already exists in the users array
+      const usernameExists = users.some(([storedUsername]) => storedUsername === username);
 
       if (usernameExists) {
         alert("This username is already taken");
@@ -175,3 +215,74 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+let gameTimer = null;
+let timeLeft = 0;
+
+function startGameTimer(durationMinutes) {
+  timeLeft = durationMinutes * 60; // המרה לשניות
+
+  gameTimer = setInterval(() => {
+    timeLeft--;
+
+    // אפשר להוסיף תצוגה של הזמן (נשדרג אחר כך)
+    console.log("Time left:", timeLeft, "seconds");
+
+    if (timeLeft <= 0) {
+      clearInterval(gameTimer);
+      gameOver = true;
+      // אפשר להוסיף הודעה של סיום משחק לפי הניקוד
+    }
+  }, 1000);
+}
+
+function startGame() {
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId);
+  }
+  if (gameTimer) clearInterval(gameTimer);
+  for (let key in keys) {
+    keys[key] = false;
+  }
+  playerLives = 3;
+  score = 0;
+  gameOver = false;
+  enemySpeed = 1;
+  enemyBulletSpeed = 2;
+  enemySpeedIncreaseCount = 0;
+  lastSpeedIncreaseTime = Date.now();
+
+  player.x = Math.random() * (canvasWidth - player.width);
+  player.y = canvasHeight - 40;
+  player.bullets = [];
+  player.speed = 5;
+
+  enemyBullets = [];
+  enemies.length = 0;
+  for (let row = 0; row < enemyRows; row++) {
+    for (let col = 0; col < enemyCols; col++) {
+      enemies.push({
+        x: col * (enemyWidth + enemyGap) + 100,
+        y: row * (enemyHeight + enemyGap) + 30,
+        width: enemyWidth,
+        height: enemyHeight,
+        color: ["maroon", "red", "green", "blue"][row],
+        rowIndex: row,
+      });
+    }
+  }
+  if (gameTimer) clearInterval(gameTimer); // כדי לא להתחיל טיימר חדש על ישן
+
+  const config = JSON.parse(localStorage.getItem("gameConfig")) || {};
+  const duration = config.gameDuration || 2; // דיפולט 2 דקות במקרה שלא נבחר
+
+  startGameTimer(duration);
+  gameLoop();
+}
+
+function endGame() {
+  if (gameTimer) clearInterval(gameTimer);
+  gameOver = true;
+}
+
+
