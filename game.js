@@ -3,25 +3,19 @@ const ctx = canvas.getContext("2d");
 const canvasWidth = canvas.width;
 const canvasHeight = canvas.height;
 
-// משתנים למשחק
+const shootSound = document.getElementById("shootSound");
+const hitGoodSound = document.getElementById("hitGoodSound");
+const hitBadSound = document.getElementById("hitBadSound");
+
 let playerLives = 3;
 let score = 0;
 let gameOver = false;
-
 let animationFrameId = null;
-
-// הגדרת מהירות בסיסית
 let enemySpeed = 1;
 let enemyBulletSpeed = 2;
 let enemySpeedIncreaseCount = 0;
-
-// משתנה לזמן ההאצה
 let lastSpeedIncreaseTime = Date.now();
-
-// אזור תנועה של החללית (40% מהמסך התחתון)
 const playerMovementAreaHeight = canvasHeight * 0.4;
-
-// יצירת החללית של השחקן
 const player = {
     x: Math.random() * (canvasWidth - 40),
     y: canvasHeight - 40,
@@ -38,14 +32,13 @@ if (config.shipColor) {
 }
 let shootKey = config.shootKey || " ";
 
-// יצירת החלליות הרעות 4x5
 const enemyRows = 4;
 const enemyCols = 5;
 const enemies = [];
 const enemyWidth = 40;
 const enemyHeight = 20;
 const enemyGap = 10;
-let enemyDirection = 1; // 1 לימין, -1 לשמאל
+let enemyDirection = 1;
 
 for (let row = 0; row < enemyRows; row++) {
     for (let col = 0; col < enemyCols; col++) {
@@ -60,11 +53,9 @@ for (let row = 0; row < enemyRows; row++) {
     }
 }
 
-// קליע של אויבים
 let enemyBullets = [];
 let lastEnemyShotTime = 0;
 
-// תנועת השחקן
 const keys = {};
 document.addEventListener("keydown", (e) => (keys[e.key] = true));
 document.addEventListener("keyup", (e) => (keys[e.key] = false));
@@ -72,13 +63,14 @@ document.addEventListener("keydown", (e) => {
     keys[e.key] = true;
     if (e.key === shootKey) {
         player.bullets.push({
-            x: player.x + player.width / 2 - 2.5,
-            y: player.y,
-            width: 5,
-            height: 10,
-            color: config.bulletColor || "purple",
+          x: player.x + player.width / 2 - 2.5,
+          y: player.y,
+          width: 5,
+          height: 10,
+          color: config.bulletColor || "purple",
         });
-    }
+        if (shootSound) shootSound.play();
+      }
 });
 
 function updatePlayer() {
@@ -91,8 +83,6 @@ function updatePlayer() {
         player.y -= player.speed;
     if (keys["ArrowDown"] && player.y + player.height < canvasHeight)
         player.y += player.speed;
-
-    // עדכון קליעי השחקן
     for (let b of player.bullets) {
         b.y -= 5;
     }
@@ -100,7 +90,6 @@ function updatePlayer() {
 }
 
 function updateEnemies() {
-    // בדיקת קצה
     let hitRight = false;
     let hitLeft = false;
     for (let e of enemies) {
@@ -110,12 +99,9 @@ function updateEnemies() {
     if ((enemyDirection === 1 && hitRight) || (enemyDirection === -1 && hitLeft)) {
         enemyDirection *= -1;
     }
-
     for (let e of enemies) {
         e.x += enemySpeed * enemyDirection;
     }
-
-    // ירי של אויבים
     const now = Date.now();
     if (
         now - lastEnemyShotTime > 500 &&
@@ -143,7 +129,6 @@ function updateEnemies() {
 }
 
 function checkCollisions() {
-    // פגיעות של קליעים באויבים
     for (let i = player.bullets.length - 1; i >= 0; i--) {
         const b = player.bullets[i];
         for (let j = enemies.length - 1; j >= 0; j--) {
@@ -154,6 +139,7 @@ function checkCollisions() {
                 b.y < e.y + e.height &&
                 b.y + b.height > e.y
             ) {
+                if (hitGoodSound) hitGoodSound.play();
                 score += 5 * (4 - e.rowIndex);
                 player.bullets.splice(i, 1);
                 enemies.splice(j, 1);
@@ -162,7 +148,6 @@ function checkCollisions() {
         }
     }
 
-    // פגיעות של קליע אויב בשחקן
     for (let b of enemyBullets) {
         if (
             b.x < player.x + player.width &&
@@ -170,6 +155,7 @@ function checkCollisions() {
             b.y < player.y + player.height &&
             b.y + b.height > player.y
         ) {
+            if (hitBadSound) hitBadSound.play();
             playerLives--;
             enemyBullets = [];
             player.x = (canvasWidth / 2) - (player.width / 2);
@@ -182,18 +168,15 @@ function checkCollisions() {
 
 function startGameTimer(durationMinutes) {
     timeLeft = durationMinutes * 60;
-
     gameTimer = setInterval(() => {
         if (gameOver) {
             clearInterval(gameTimer);
             return;
         }
         timeLeft--;
-
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         document.getElementById("timerDisplay").textContent = `Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
-
         if (timeLeft <= 0) {
             clearInterval(gameTimer);
             gameOver = true;
