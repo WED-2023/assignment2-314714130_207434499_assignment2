@@ -17,16 +17,12 @@ function setupNavigation() {
       loadPage(page);
     });
   });
-
-  // ✅ About button triggers modal
   if (aboutBtn && modalOverlay) {
     aboutBtn.addEventListener("click", (e) => {
       e.preventDefault();
       modalOverlay.classList.remove("hidden");
     });
   }
-
-  // ✅ Modal close logic
   if (modalOverlay && modalClose) {
     modalClose.addEventListener("click", () => {
       modalOverlay.classList.add("hidden");
@@ -56,6 +52,11 @@ function loadPage(page) {
     return;
   }
 
+  if (page === "login" && loggedInUser) {
+    alert("You already log in");
+    return;
+  }
+
   if (page !== "game" && typeof stopGame === "function") {
     stopGame();
   }
@@ -76,7 +77,7 @@ function loadPage(page) {
       addFormHandlers(page);
     })
     .catch(error => {
-      document.getElementById("content").innerHTML = `<p>שגיאה בטעינת הדף.</p>`;
+      document.getElementById("content").innerHTML = `<p>error while loading the page</p>`;
       console.error(error);
     });
 }
@@ -111,7 +112,6 @@ function addFormHandlers(page) {
       e.preventDefault();
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-
       const userExists = users.some(([storedUsername, storedPassword]) =>
         storedUsername === username && storedPassword === password);
       // Check if the user exists in the users array
@@ -129,17 +129,14 @@ function addFormHandlers(page) {
     const configForm = document.getElementById("configForm");
     configForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const shootKey = document.getElementById("shootKey").value;
       const gameDuration = parseInt(document.getElementById("gameDuration").value);
       const shipColor = document.getElementById("shipColor").value;
       const bulletColor = document.getElementById("bulletColor").value;
-
       if (gameDuration < 2) {
         alert("Minimum game duration is 2 minutes!");
         return;
       }
-
       // Save config to localStorage or global variable
       localStorage.setItem("gameConfig", JSON.stringify({
         shootKey,
@@ -147,7 +144,6 @@ function addFormHandlers(page) {
         shipColor,
         bulletColor
       }));
-
       loadPage("game");
     });
   }
@@ -156,30 +152,23 @@ function addFormHandlers(page) {
     const registerForm = document.getElementById("registerForm");
     registerForm.addEventListener("submit", (e) => {
       e.preventDefault();
-
       const username = document.getElementById("newUsername").value;
       const password = document.getElementById("newPassword").value;
       const confirm = document.getElementById("confirmPassword").value;
-
-
       // Check if the username already exists in the users array
       const usernameExists = users.some(([storedUsername]) => storedUsername === username);
-
       if (usernameExists) {
         alert("This username is already taken");
         return;
       }
-
       if (password !== confirm) {
         alert("The passwords do not match");
         return;
       }
-
       if (!/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/.test(password)) {
         alert("The password must include at least 8 characters, one letter and one number");
         return;
       }
-
       users.push([username, password]); // Save the user credentials as a tuple
       alert("You have successfully registered! You can now log in");
       loadPage("login");
@@ -220,18 +209,13 @@ let gameTimer = null;
 let timeLeft = 0;
 
 function startGameTimer(durationMinutes) {
-  timeLeft = durationMinutes * 60; // המרה לשניות
-
+  timeLeft = durationMinutes * 60;
   gameTimer = setInterval(() => {
     timeLeft--;
-
-    // אפשר להוסיף תצוגה של הזמן (נשדרג אחר כך)
     console.log("Time left:", timeLeft, "seconds");
-
     if (timeLeft <= 0) {
       clearInterval(gameTimer);
       gameOver = true;
-      // אפשר להוסיף הודעה של סיום משחק לפי הניקוד
     }
   }, 1000);
 }
@@ -256,7 +240,6 @@ function startGame() {
   player.y = canvasHeight - 40;
   player.bullets = [];
   player.speed = 5;
-
   enemyBullets = [];
   enemies.length = 0;
   for (let row = 0; row < enemyRows; row++) {
@@ -271,11 +254,9 @@ function startGame() {
       });
     }
   }
-  if (gameTimer) clearInterval(gameTimer); // כדי לא להתחיל טיימר חדש על ישן
-
+  if (gameTimer) clearInterval(gameTimer);
   const config = JSON.parse(localStorage.getItem("gameConfig")) || {};
-  const duration = config.gameDuration || 2; // דיפולט 2 דקות במקרה שלא נבחר
-
+  const duration = config.gameDuration || 2;
   startGameTimer(duration);
   gameLoop();
 }
