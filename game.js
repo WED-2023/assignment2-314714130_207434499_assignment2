@@ -4,7 +4,7 @@ let canvasWidth = 800;
 let canvasHeight = 600; 
 
 const enemyImage = new Image();
-enemyImage.src = "Photos/enemy.jpg";
+enemyImage.src = "photos/enemy.jpg";
 
 
 const shootSound = document.getElementById("shootSound");
@@ -279,7 +279,7 @@ window.addEventListener("load", () => {
         return;
       }
 
-    canvas.style.backgroundImage = "url('Photos/Game Background.jpg')";
+    canvas.style.backgroundImage = "url('photos/game background.jpg')";
     const startBtn = document.getElementById("startButton");
   
     if (startBtn && canvas) {
