@@ -1,18 +1,13 @@
-<section>
+<section style="text-align: center;">
   <h2>The game has started!</h2>
-  <p>Use the mouse to aim the cannon and shoot at the target. Watch out for the obstacle!</p>
+  <p>Use the keyboard to move and shoot. Watch out for the chickens!</p>
 
-  <canvas id="gameCanvas" width="800" height="400" tabindex="0"></canvas>
-  <p style="text-align:center">
-    <span id="timerDisplay">Time left: --:--</span>
-  </p>
+  <button id="startButton">Start Game!</button>
+  <div id="timerDisplay" style="margin-top: 10px;">Time left: --:--</div>
 
-  <p style="text-align:center">
-    <button id="startButton">Start game!</button>
-  </p>
+  <canvas id="gameCanvas" width="800" height="600" tabindex="0" style="margin-top: 20px; border: 1px solid black;"></canvas>
 
   <audio id="shootSound" src="cannon_fire.ogg" preload="auto"></audio>
   <audio id="hitGoodSound" src="target_hit.ogg" preload="auto"></audio>
   <audio id="hitBadSound" src="blocker_hit.ogg" preload="auto"></audio>
-
 </section>

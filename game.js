@@ -1,7 +1,11 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-const canvasWidth = canvas.width;
-const canvasHeight = canvas.height;
+let canvas = null;
+let ctx = null;
+let canvasWidth = 800;
+let canvasHeight = 600; 
+
+const enemyImage = new Image();
+enemyImage.src = "Photos/enemy.jpg";
+
 
 const shootSound = document.getElementById("shootSound");
 const hitGoodSound = document.getElementById("hitGoodSound");
@@ -15,6 +19,7 @@ let enemySpeed = 1;
 let enemyBulletSpeed = 2;
 let enemySpeedIncreaseCount = 0;
 let lastSpeedIncreaseTime = Date.now();
+let initialPlayerX = null;
 const playerMovementAreaHeight = canvasHeight * 0.4;
 const player = {
     x: Math.random() * (canvasWidth - 40),
@@ -35,8 +40,8 @@ let shootKey = config.shootKey || " ";
 const enemyRows = 4;
 const enemyCols = 5;
 const enemies = [];
-const enemyWidth = 40;
-const enemyHeight = 20;
+const enemyWidth = 30;
+const enemyHeight = 30;
 const enemyGap = 10;
 let enemyDirection = 1;
 
@@ -57,21 +62,29 @@ let enemyBullets = [];
 let lastEnemyShotTime = 0;
 
 const keys = {};
-document.addEventListener("keydown", (e) => (keys[e.key] = true));
-document.addEventListener("keyup", (e) => (keys[e.key] = false));
 document.addEventListener("keydown", (e) => {
+    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", shootKey].includes(e.key)) {
+      e.preventDefault(); // ✅ Stop page from scrolling
+    }
+  
     keys[e.key] = true;
+  
     if (e.key === shootKey) {
-        player.bullets.push({
-          x: player.x + player.width / 2 - 2.5,
-          y: player.y,
-          width: 5,
-          height: 10,
-          color: config.bulletColor || "purple",
-        });
-        if (shootSound) shootSound.play();
-      }
-});
+      player.bullets.push({
+        x: player.x + player.width / 2 - 2.5,
+        y: player.y,
+        width: 5,
+        height: 10,
+        color: config.bulletColor || "purple",
+      });
+  
+      if (shootSound) shootSound.play();
+    }
+  });
+  
+  document.addEventListener("keyup", (e) => {
+    keys[e.key] = false;
+  });
 
 function updatePlayer() {
     if (keys["ArrowLeft"] && player.x > 0) player.x -= player.speed;
@@ -158,7 +171,7 @@ function checkCollisions() {
             if (hitBadSound) hitBadSound.play();
             playerLives--;
             enemyBullets = [];
-            player.x = (canvasWidth / 2) - (player.width / 2);
+            player.x = player.x = initialPlayerX;
             player.y = canvasHeight - player.height - 10;
             if (playerLives === 0) gameOver = true;
             break;
@@ -195,6 +208,10 @@ function increaseSpeed() {
     }
 }
 
+function drawEnemy(e) {
+    ctx.drawImage(enemyImage, e.x, e.y, e.width, e.height);
+}
+
 function drawObject(o) {
     ctx.fillStyle = o.color;
     ctx.fillRect(o.x, o.y, o.width, o.height);
@@ -204,7 +221,7 @@ function draw() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     drawObject(player);
     for (let b of player.bullets) drawObject(b);
-    for (let e of enemies) drawObject(e);
+    for (let e of enemies) drawEnemy(e);
     for (let b of enemyBullets) drawObject(b);
 
     ctx.fillStyle = "black";
@@ -247,9 +264,35 @@ function gameLoop() {
     animationFrameId = requestAnimationFrame(gameLoop);
 }
 
-document.getElementById("startButton").addEventListener("click", () => {
-    startGame();
-    document.getElementById("gameCanvas").focus();
-});
+window.addEventListener("load", () => {
+    attachGameEvents();
+  });
+  
+  function attachGameEvents() {
+    canvas = document.getElementById("gameCanvas");
+    ctx = canvas.getContext("2d");
+    canvasWidth = canvas.width;
+    canvasHeight = canvas.height;
+
+    if (!canvas) {
+        console.error("Canvas not found!");
+        return;
+      }
+
+    canvas.style.backgroundImage = "url('Photos/Game Background.jpg')";
+    const startBtn = document.getElementById("startButton");
+  
+    if (startBtn && canvas) {
+      console.log("Start button found. Binding click...");
+      startBtn.addEventListener("click", () => {
+        startGame();
+        canvas.focus();
+      });
+    } else {
+      // If not loaded yet, retry shortly
+      console.log("Start button  not found. Binding click...");
+      setTimeout(attachGameEvents, 100);
+    }
+  }
 
 

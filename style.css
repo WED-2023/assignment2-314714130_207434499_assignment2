@@ -1,3 +1,32 @@
+.header-balanced {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(64, 109, 109);
+  padding: 10px 20px;
+  color: white;
+}
+
+.header-left,
+.header-center,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.logo {
+  height: 60px;
+}
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -96,4 +125,38 @@ body {
 
 #gameCanvas:focus {
   outline: none;
+}
+
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.welcome-btn {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  text-decoration: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.welcome-btn.signup {
+  background-color: #28a745; /* green */
+}
+
+.welcome-btn.signup:hover {
+  background-color: #218838;
+}
+
+.welcome-btn.login {
+  background-color: #007bff; /* blue */
+}
+
+.welcome-btn.login:hover {
+  background-color: #0056b3;
 }

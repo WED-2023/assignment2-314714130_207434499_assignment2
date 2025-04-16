@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupNavigation() {
-  const links = document.querySelectorAll("nav a:not(#about-btn)");
+  const links = document.querySelectorAll("a[data-page]:not(#about-btn)");
   const aboutBtn = document.getElementById("about-btn");
   const modalOverlay = document.getElementById("modal-overlay");
   const modalClose = document.getElementById("modal-close");
@@ -70,9 +70,13 @@ function loadPage(page) {
     })
     .then(html => {
       document.getElementById("content").innerHTML = html;
+      setupNavigation(); 
       if (page === "game") {
-        // loadGameScript();
-        loadScript("game.js");
+        loadScript("game.js", () => {
+          if (typeof attachGameEvents === "function") {
+            attachGameEvents();
+          }
+        });
       }
       addFormHandlers(page);
     })
@@ -82,10 +86,12 @@ function loadPage(page) {
     });
 }
 
-function loadScript(src) {
+function loadScript(src, callback) {
   const script = document.createElement("script");
   script.src = `${src}?v=${Date.now()}`;
-  script.defer = true;
+  script.onload = () => {
+    if (callback) callback();
+  };
   document.body.appendChild(script);
 }
 
@@ -228,6 +234,7 @@ function startGame() {
   for (let key in keys) {
     keys[key] = false;
   }
+  
   playerLives = 3;
   score = 0;
   gameOver = false;
@@ -236,7 +243,8 @@ function startGame() {
   enemySpeedIncreaseCount = 0;
   lastSpeedIncreaseTime = Date.now();
 
-  player.x = Math.random() * (canvasWidth - player.width);
+  initialPlayerX = Math.random() * (canvasWidth - player.width);
+  player.x = initialPlayerX;
   player.y = canvasHeight - 40;
   player.bullets = [];
   player.speed = 5;
