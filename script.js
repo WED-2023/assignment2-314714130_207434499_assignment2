@@ -45,11 +45,18 @@ function setupNavigation() {
 let loggedInUser = null; // Variable to track the logged-in user
 
 function loadPage(page) {
-
-  if (page === "game" && !loggedInUser) {
-    alert("You must be logged in to access the game.");
-    loadPage("login"); // Redirect to the login page
-    return;
+  if (page === "game") {
+    if (!loggedInUser) {
+      if (!window._loginRedirectedOnce) {
+        window._loginRedirectedOnce = true; // ✅ prevent future alerts
+        alert("You must be logged in to access the game.");
+        loadPage("login");
+      }
+      return;
+    } else {
+      // ✅ if user is logged in, allow game page to load
+      window._loginRedirectedOnce = false;
+    }
   }
 
   if (page === "login" && loggedInUser) {
