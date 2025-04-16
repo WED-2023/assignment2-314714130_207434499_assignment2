@@ -77,7 +77,6 @@ function loadPage(page) {
     })
     .then(html => {
       document.getElementById("content").innerHTML = html;
-      setupNavigation(); 
       if (page === "game") {
         loadScript("game.js", () => {
           if (typeof attachGameEvents === "function") {
