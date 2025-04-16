@@ -4,12 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupNavigation() {
-  const oldLinks = document.querySelectorAll("a[data-page]");
-  oldLinks.forEach(oldLink => {
-    const newLink = oldLink.cloneNode(true);
-    oldLink.replaceWith(newLink); // ✅ remove previous listeners
-  });
-
   const links = document.querySelectorAll("a[data-page]:not(#about-btn)");
   const aboutBtn = document.getElementById("about-btn");
   const modalOverlay = document.getElementById("modal-overlay");
@@ -29,6 +23,7 @@ function setupNavigation() {
       modalOverlay.classList.remove("hidden");
     });
   }
+
   if (modalOverlay && modalClose) {
     modalClose.addEventListener("click", () => {
       modalOverlay.classList.add("hidden");
