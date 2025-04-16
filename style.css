@@ -1,3 +1,32 @@
+.header-balanced {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(64, 109, 109);
+  padding: 10px 20px;
+  color: white;
+}
+
+.header-left,
+.header-center,
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-left {
+  justify-content: flex-start;
+}
+
+.header-right {
+  justify-content: flex-end;
+}
+
+.logo {
+  height: 60px;
+}
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
@@ -12,11 +41,19 @@ body {
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
   
-  header, footer {
+  header {
     background-color: rgb(64, 109, 109);
     color: white;
     text-align: center;
     padding: 10px;
+  }
+
+  footer {
+    background-color: rgb(64, 109, 109);
+    color: white;
+    text-align: center;
+    padding: 1px;
+    font-size: 0.8em;
   }
   
   nav {
@@ -46,4 +83,80 @@ body {
     padding: 20px;
     min-height: 400px;
   }
-  
+
+
+  /* Modal overlay */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+#modal {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 300px;
+  max-width: 90%;
+  position: relative;
+}
+
+#modal-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: crimson;
+  color: white;
+  border: none;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+#gameCanvas:focus {
+  outline: none;
+}
+
+
+.welcome-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.welcome-btn {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  text-decoration: none;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.welcome-btn.signup {
+  background-color: #28a745; /* green */
+}
+
+.welcome-btn.signup:hover {
+  background-color: #218838;
+}
+
+.welcome-btn.login {
+  background-color: #007bff; /* blue */
+}
+
+.welcome-btn.login:hover {
+  background-color: #0056b3;
+}

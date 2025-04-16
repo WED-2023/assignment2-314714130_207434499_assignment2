@@ -2,13 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cannon Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chicken Invaders</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="container">
-    <header>
-      <h1>Cannon Game 🎯</h1>
+    <header class="header-balanced">
+      <div class="header-left">
+        <img src="Photos/logo.png" alt="Chicken Invaders Logo" class="logo">
+      </div>
+      <div class="header-center">
+        <h1>Chicken Invaders</h1>
+      </div>
+      <div class="header-right">
+        
+      </div>
     </header>
 
     <nav>
@@ -17,7 +26,8 @@
         <li><a href="#" data-page="login">Login</a></li>
         <li><a href="#" data-page="register">Register</a></li>
         <li><a href="#" data-page="game">Game</a></li>
-        <li><a href="#" data-page="about">About</a></li>
+        <li><a href="#" id="about-btn">About</a></li> 
+      
       </ul>
     </nav>
 
@@ -26,12 +36,33 @@
     </main>
 
     <footer>
-      <p>Cannon game by Yuval and Guy</p>
-      <p>Contact us:</p>
-      <p>Guy - korenfgu@post.bgu.ac.il</p>
-      <p>Yuval - yuvalliv@post.bgu.ac.il</p>
-    </footer>
+      <p>Cannon game by Yuval and Guy </br>
+         Contact us:
+      </br>
+      Guy - korenfgu@post.bgu.ac.il Yuval - yuvalliv@post.bgu.ac.il
+        </p>
+
+      <p>&copy; 2025 Chicken Invaders. All rights reserved.</p>
+      </footer>
+
   </div>
+
+
+  <div id="modal-overlay" class="hidden">
+    <div id="modal">
+      <button id="modal-close">X</button>
+      <div id="modal-content">
+        <h2>About</h2>
+       <p>
+        Developed by: Yuval Livshits & Guy Korenfeld
+
+
+
+       </p>
+      </div>
+    </div>
+  </div>
+
 
   <script src="script.js"></script>
 </body>
