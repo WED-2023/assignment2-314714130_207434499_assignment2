@@ -131,7 +131,7 @@ function addFormHandlers(page) {
       // Check if the user exists in the users array
       if (userExists) {
         loggedInUser = username;
-        alert("You have successfully connected!");
+        
         loadPage("config");
       } else {
         alert("Incorrect username or password");
