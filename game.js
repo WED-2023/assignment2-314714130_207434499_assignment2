@@ -6,7 +6,7 @@ let canvasHeight = 600;
 const enemyImage = new Image();
 enemyImage.src = "./photos1/enemy.jpg";
 const spaceshipImage = new Image();
-spaceshipImage.src = "./photos1/ship.png";
+spaceshipImage.src = "./photos1/ship.jpg";
 
 
 const shootSound = document.getElementById("shootSound");
@@ -222,6 +222,7 @@ function drawObject(o) {
 function draw() {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(spaceshipImage, player.x, player.y, player.width, player.height);
+
     for (let b of player.bullets) drawObject(b);
     for (let e of enemies) drawEnemy(e);
     for (let b of enemyBullets) drawObject(b);
