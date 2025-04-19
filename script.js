@@ -255,7 +255,7 @@ function startGame() {
   for (let key in keys) {
     keys[key] = false;
   }
-  
+  window.scoreSaved = false;
   playerLives = 3;
   score = 0;
   gameOver = false;

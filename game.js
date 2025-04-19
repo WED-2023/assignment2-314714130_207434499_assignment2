@@ -261,7 +261,6 @@ function draw() {
     ctx.fillStyle = "#ffff66"; // bright yellow
     ctx.fillText(statusText, x, y + 16); // baseline
 
-    // === 🔚 End-game UI ===
     if (gameOver || enemies.length === 0) {
         ctx.save();
         ctx.font = "36px Arial";
@@ -300,22 +299,27 @@ function draw() {
             const key = `scores_${loggedInUser}`;
             const history = JSON.parse(localStorage.getItem(key)) || [];
             const rank = history.findIndex(s => s === score) + 1;
-            const top = history.slice(0, 5);
-
+            const top = history.slice(0, 5); // Top 5 scores
+          
             ctx.font = "18px Arial";
             ctx.fillStyle = "white";
             ctx.shadowColor = "black";
             ctx.shadowBlur = 3;
             ctx.textAlign = "center";
-
-            ctx.fillText("Your top scores:", canvasWidth / 2, canvasHeight / 2 + 60);
-            top.forEach((s, i) => {
+          
+            if (top.length > 0) {
+              ctx.fillText("Your top scores:", canvasWidth / 2, canvasHeight / 2 + 60);
+              top.forEach((s, i) => {
                 ctx.fillText(`${i + 1}. ${s}`, canvasWidth / 2, canvasHeight / 2 + 90 + i * 25);
-            });
-            ctx.fillText(`This game's rank: ${rank}`, canvasWidth / 2, canvasHeight / 2 + 90 + top.length * 25);
+              });
+              ctx.fillText(`This game's rank: ${rank}`, canvasWidth / 2, canvasHeight / 2 + 90 + top.length * 25);
+            } else {
+              ctx.fillText("No scores yet.", canvasWidth / 2, canvasHeight / 2 + 90);
+            }
+          
             ctx.shadowBlur = 0;
-        }
-    }
+          }
+          
 }
 
 function stopGame() {
@@ -339,6 +343,14 @@ function stopGame() {
         history.sort((a, b) => b - a); // sort descending
         localStorage.setItem(key, JSON.stringify(history));
       }  
+    if (!window.scoreSaved && loggedInUser && score > 0) {
+    const key = `scores_${loggedInUser}`;
+    const history = JSON.parse(localStorage.getItem(key)) || [];
+    history.push(score);
+    history.sort((a, b) => b - a); // Sort from highest to lowest
+    localStorage.setItem(key, JSON.stringify(history));
+    window.scoreSaved = true; // prevent duplicate saving
+    }
   }
 
   function gameLoop() {
