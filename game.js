@@ -245,21 +245,48 @@ function draw() {
     for (let e of enemies) drawEnemy(e);
     for (let b of enemyBullets) drawObject(b);
 
+    //  Draw Score, Lives, Time
     ctx.fillStyle = "black";
     ctx.font = "16px Arial";
-    ctx.fillText("Score: " + score, 10, 20);
-    ctx.fillText("Lives: " + playerLives, 10, 40);
+    ctx.fillText(
+        `Score: ${score}  Lives: ${playerLives}  Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`,
+        10,
+        20
+    );
 
-    if (gameOver) {
-        ctx.fillStyle = "red";
+    //  Game End Messages
+    if (gameOver || enemies.length === 0) {
+        ctx.save(); // Save current canvas state
         ctx.font = "36px Arial";
-        ctx.fillText("Game Over", canvasWidth / 2 - 100, canvasHeight / 2);
-    }
+        ctx.textAlign = "center";
 
-    if (enemies.length === 0) {
-        ctx.fillStyle = "green";
-        ctx.font = "36px Arial";
-        ctx.fillText("You Win!", canvasWidth / 2 - 80, canvasHeight / 2);
+        let message = "";
+
+        if (enemies.length === 0) {
+            message = "Champion!";
+        } else if (playerLives <= 0) {
+            message = "You Lost!";
+        } else if (timeLeft <= 0) {
+            message = score >= 100 ? "Winner!" : "You can do better";
+        }
+
+        // Draw translucent black background box
+        const boxWidth = 320;
+        const boxHeight = 60;
+        const boxX = canvasWidth / 2 - boxWidth / 2;
+        const boxY = canvasHeight / 2 - boxHeight / 2;
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+        ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
+
+        // Draw the text with shadow
+        ctx.fillStyle = "white";
+        ctx.shadowColor = "black";
+        ctx.shadowBlur = 6;
+        ctx.fillText(message, canvasWidth / 2, canvasHeight / 2 + 10);
+
+        ctx.shadowBlur = 0; // Reset shadow
+        ctx.restore();
     }
 }
 
