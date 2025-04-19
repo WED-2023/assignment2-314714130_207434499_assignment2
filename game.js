@@ -3,10 +3,21 @@ let ctx = null;
 let canvasWidth = 800;
 let canvasHeight = 600; 
 
-const enemyImage = new Image();
-enemyImage.src = "./photos1/enemy.jpg";
+
 const spaceshipImage = new Image();
 spaceshipImage.src = "./photos1/ship.jpg";
+
+const enemyImages = [
+    new Image(), // Row 0
+    new Image(), // Row 1
+    new Image(), // Row 2
+    new Image()  // Row 3
+  ];
+  
+  enemyImages[0].src = "./photos1/enemy1.png";
+  enemyImages[1].src = "./photos1/enemy2.png";
+  enemyImages[2].src = "./photos1/enemy3.png";
+  enemyImages[3].src = "./photos1/enemy4.png";
 
 
 const shootSound = document.getElementById("shootSound");
@@ -208,8 +219,15 @@ function increaseSpeed() {
 }
 
 function drawEnemy(e) {
-    ctx.drawImage(enemyImage, e.x, e.y, e.width, e.height);
-}
+    const img = enemyImages[e.rowIndex];
+    if (img.complete) {
+      ctx.drawImage(img, e.x, e.y, e.width, e.height);
+    } else {
+      // fallback while image is still loading
+      ctx.fillStyle = e.color;
+      ctx.fillRect(e.x, e.y, e.width, e.height);
+    }
+  }
 
 function drawObject(o) {
     ctx.fillStyle = o.color;
