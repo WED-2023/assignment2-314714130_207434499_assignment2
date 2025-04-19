@@ -19,14 +19,13 @@ const enemyImages = [
   enemyImages[2].src = "./photos1/enemy3.jpg";
   enemyImages[3].src = "./photos1/enemy4.jpg";
 
-  enemyImages.forEach((img, i) => {
-    img.onload = () => console.log(`enemy${i + 1} loaded`);
-    img.onerror = () => console.error(`enemy${i + 1} failed to load`);
-  });
+
 
 const shootSound = document.getElementById("shootSound");
 const hitGoodSound = document.getElementById("hitGoodSound");
 const hitBadSound = document.getElementById("hitBadSound");
+const backgroundMusic = document.getElementById("backgroundMusic");
+
 
 let playerLives = 3;
 let score = 0;
@@ -215,8 +214,8 @@ function startGameTimer(durationMinutes) {
 function increaseSpeed() {
     const now = Date.now();
     if (now - lastSpeedIncreaseTime >= 5000 && enemySpeedIncreaseCount < 4) {
-        enemySpeed += 0.5;
-        enemyBulletSpeed += 0.5;
+        enemySpeed += 0.8;
+        enemyBulletSpeed += 0.8;
         enemySpeedIncreaseCount++;
         lastSpeedIncreaseTime = now;
     }
@@ -273,6 +272,10 @@ function stopGame() {
       clearInterval(gameTimer);
       gameTimer = null;
     }
+    if (backgroundMusic) {
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+      }
   }
 
 function gameLoop() {

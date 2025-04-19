@@ -272,6 +272,10 @@ function startGame() {
   const config = JSON.parse(localStorage.getItem("gameConfig")) || {};
   const duration = config.gameDuration || 2;
   startGameTimer(duration);
+  if (backgroundMusic) {
+    backgroundMusic.currentTime = 0;
+    backgroundMusic.play().catch(err => console.warn("Background music couldn't play:", err));
+  }
   gameLoop();
 }
 
