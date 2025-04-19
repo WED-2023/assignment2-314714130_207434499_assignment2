@@ -19,19 +19,10 @@ const enemyImages = [
   enemyImages[2].src = "./photos1/enemy3.jpg";
   enemyImages[3].src = "./photos1/enemy4.jpg";
 
-
-let enemyImagesLoaded = 0;
-enemyImages.forEach((img, i) => {
-  img.onload = () => {
-    enemyImagesLoaded++;
-    if (enemyImagesLoaded === enemyImages.length) {
-      console.log("✅ All enemy images loaded. Game ready.");
-    }
-  };
-  img.onerror = () => {
-    console.error(`❌ Failed to load enemy image for row ${i}: ${img.src}`);
-  };
-});
+  enemyImages.forEach((img, i) => {
+    img.onload = () => console.log(`enemy${i + 1} loaded`);
+    img.onerror = () => console.error(`enemy${i + 1} failed to load`);
+  });
 
 const shootSound = document.getElementById("shootSound");
 const hitGoodSound = document.getElementById("hitGoodSound");
@@ -316,13 +307,8 @@ window.addEventListener("load", () => {
     if (startBtn && canvas) {
       console.log("Start button found. Binding click...");
       startBtn.addEventListener("click", () => {
-        if (enemyImagesLoaded === enemyImages.length) {
-          startGame();
-          canvas.focus();
-        } else {
-          console.log("⏳ Waiting for enemy images to load...");
-          setTimeout(() => startBtn.click(), 200); // retry after delay
-        }
+        startGame();
+        canvas.focus();
       });
     } else {
       // If not loaded yet, retry shortly
