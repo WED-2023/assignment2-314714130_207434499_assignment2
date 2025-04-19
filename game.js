@@ -245,26 +245,29 @@ function draw() {
     for (let e of enemies) drawEnemy(e);
     for (let b of enemyBullets) drawObject(b);
 
-    //  Draw Score, Lives, Time
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#ffff66"; // bright yellow
-    ctx.shadowColor = "black";
-    ctx.shadowBlur = 4;
-    ctx.fillText(
-      `Score: ${score}  Lives: ${playerLives}  Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`,
-      10,
-      20
-    );
-    ctx.shadowBlur = 0; // reset for next drawing
+    // === 🟡 Score/Lives/Time with background ===
+    const formattedTime = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
+    const statusText = `Score: ${score}  Lives: ${playerLives}  Time: ${formattedTime}`;
 
-    //  Game End Messages
+    ctx.font = "16px Arial";
+    const textWidth = ctx.measureText(statusText).width;
+    const padding = 10;
+    const x = 10;
+    const y = 10;
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillRect(x - padding / 2, y, textWidth + padding, 24);
+
+    ctx.fillStyle = "#ffff66"; // bright yellow
+    ctx.fillText(statusText, x, y + 16); // baseline
+
+    // === 🔚 End-game UI ===
     if (gameOver || enemies.length === 0) {
-        ctx.save(); // Save current canvas state
+        ctx.save();
         ctx.font = "36px Arial";
         ctx.textAlign = "center";
 
         let message = "";
-
         if (enemies.length === 0) {
             message = "Champion!";
         } else if (playerLives <= 0) {
@@ -273,7 +276,7 @@ function draw() {
             message = score >= 100 ? "Winner!" : "You can do better";
         }
 
-        // Draw translucent black background box
+        // Background for message
         const boxWidth = 320;
         const boxHeight = 60;
         const boxX = canvasWidth / 2 - boxWidth / 2;
@@ -282,39 +285,35 @@ function draw() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
         ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
 
-        // Draw the text with shadow
         ctx.fillStyle = "white";
         ctx.shadowColor = "black";
         ctx.shadowBlur = 6;
+        ctx.strokeStyle = "black";
+        ctx.lineWidth = 2;
+        ctx.strokeText(message, canvasWidth / 2, canvasHeight / 2 + 10);
         ctx.fillText(message, canvasWidth / 2, canvasHeight / 2 + 10);
-
-        ctx.shadowBlur = 0; // Reset shadow
+        ctx.shadowBlur = 0;
         ctx.restore();
 
+        // === 🏆 Leaderboard ===
         if (loggedInUser) {
             const key = `scores_${loggedInUser}`;
             const history = JSON.parse(localStorage.getItem(key)) || [];
-            const rank = history.indexOf(score) + 1;
-        
+            const rank = history.findIndex(s => s === score) + 1;
+            const top = history.slice(0, 5);
+
             ctx.font = "18px Arial";
             ctx.fillStyle = "white";
-            ctx.textAlign = "center";
             ctx.shadowColor = "black";
             ctx.shadowBlur = 3;
-        
-            // Display table title
+            ctx.textAlign = "center";
+
             ctx.fillText("Your top scores:", canvasWidth / 2, canvasHeight / 2 + 60);
-        
-            // Show top 5 scores
-            const top = history.slice(0, 5);
             top.forEach((s, i) => {
                 ctx.fillText(`${i + 1}. ${s}`, canvasWidth / 2, canvasHeight / 2 + 90 + i * 25);
             });
-        
-            // Show this game's rank
             ctx.fillText(`This game's rank: ${rank}`, canvasWidth / 2, canvasHeight / 2 + 90 + top.length * 25);
-            
-            ctx.shadowBlur = 0; // Reset
+            ctx.shadowBlur = 0;
         }
     }
 }
