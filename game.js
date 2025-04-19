@@ -220,10 +220,10 @@ function increaseSpeed() {
 
 function drawEnemy(e) {
     const img = enemyImages[e.rowIndex];
-    if (img.complete) {
+    if (img && img.complete && img.naturalWidth > 0) {
       ctx.drawImage(img, e.x, e.y, e.width, e.height);
     } else {
-      // fallback while image is still loading
+      // fallback if image is not loaded or missing
       ctx.fillStyle = e.color;
       ctx.fillRect(e.x, e.y, e.width, e.height);
     }
