@@ -40,6 +40,8 @@ function setupNavigation() {
         modalOverlay.classList.add("hidden");
       }
     });
+    
+
   }
 }
 
@@ -215,6 +217,19 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+
+  const logoutBtn = document.getElementById("logout-btn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      loggedInUser = null;
+      localStorage.removeItem("gameConfig");
+      alert("You have been logged out.");
+      loadPage("login");
+    });
+  }
+
 });
 
 let gameTimer = null;

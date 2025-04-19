@@ -290,6 +290,32 @@ function draw() {
 
         ctx.shadowBlur = 0; // Reset shadow
         ctx.restore();
+
+        if (loggedInUser) {
+            const key = `scores_${loggedInUser}`;
+            const history = JSON.parse(localStorage.getItem(key)) || [];
+            const rank = history.indexOf(score) + 1;
+        
+            ctx.font = "18px Arial";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 3;
+        
+            // Display table title
+            ctx.fillText("Your top scores:", canvasWidth / 2, canvasHeight / 2 + 60);
+        
+            // Show top 5 scores
+            const top = history.slice(0, 5);
+            top.forEach((s, i) => {
+                ctx.fillText(`${i + 1}. ${s}`, canvasWidth / 2, canvasHeight / 2 + 90 + i * 25);
+            });
+        
+            // Show this game's rank
+            ctx.fillText(`This game's rank: ${rank}`, canvasWidth / 2, canvasHeight / 2 + 90 + top.length * 25);
+            
+            ctx.shadowBlur = 0; // Reset
+        }
     }
 }
 
@@ -306,6 +332,14 @@ function stopGame() {
         backgroundMusic.pause();
         backgroundMusic.currentTime = 0;
       }
+
+    if (loggedInUser && score > 0) {
+        const key = `scores_${loggedInUser}`;
+        const history = JSON.parse(localStorage.getItem(key)) || [];
+        history.push(score);
+        history.sort((a, b) => b - a); // sort descending
+        localStorage.setItem(key, JSON.stringify(history));
+      }  
   }
 
   function gameLoop() {
