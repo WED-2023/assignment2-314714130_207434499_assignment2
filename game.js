@@ -294,7 +294,7 @@ function draw() {
         ctx.shadowBlur = 0;
         ctx.restore();
 
-        // === 🏆 Leaderboard ===
+        //  Leaderboard 
         if (loggedInUser) {
             const key = `scores_${loggedInUser}`;
             const history = JSON.parse(localStorage.getItem(key)) || [];
