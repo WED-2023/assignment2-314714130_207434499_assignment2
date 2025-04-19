@@ -298,7 +298,10 @@ function draw() {
         if (loggedInUser) {
             const key = `scores_${loggedInUser}`;
             const history = JSON.parse(localStorage.getItem(key)) || [];
-            const rank = history.findIndex(s => s === score) + 1;
+            let rank = history.findIndex(s => s === score) + 1;
+            if (rank === 0 && history.length > 0) {
+              rank = history.length;
+            }
             const top = history.slice(0, 5); // Top 5 scores
           
             ctx.font = "18px Arial";
@@ -343,13 +346,14 @@ function stopGame() {
         history.sort((a, b) => b - a); // sort descending
         localStorage.setItem(key, JSON.stringify(history));
       }  
-    if (!window.scoreSaved && loggedInUser && score > 0) {
+    if (!window.scoreSaved && loggedInUser ) {
     const key = `scores_${loggedInUser}`;
     const history = JSON.parse(localStorage.getItem(key)) || [];
     history.push(score);
     history.sort((a, b) => b - a); // Sort from highest to lowest
     localStorage.setItem(key, JSON.stringify(history));
     window.scoreSaved = true; // prevent duplicate saving
+    console.log("Saving score", score, "for", loggedInUser);
     }
   }
 
