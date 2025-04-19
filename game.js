@@ -316,10 +316,10 @@ function stopGame() {
         increaseSpeed();
     }
 
-    if (gameOver && backgroundMusic) {
+    if ((gameOver || enemies.length === 0) && backgroundMusic) {
         backgroundMusic.pause();
         backgroundMusic.currentTime = 0;
-    }
+      }
 
     draw();
     animationFrameId = requestAnimationFrame(gameLoop);
