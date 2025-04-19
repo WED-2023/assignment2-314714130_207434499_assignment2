@@ -17,7 +17,7 @@ const enemyImages = [
   enemyImages[0].src = "./photos1/enemy1.jpg";
   enemyImages[1].src = "./photos1/enemy2.jpg";
   enemyImages[2].src = "./photos1/enemy3.jpg";
-  enemyImages[3].src = "./photos1/enemy4.jpg";
+  enemyImages[3].src = "./photos1/enemy1.jpg";
 
   enemyImages.forEach((img, i) => {
     img.onload = () => console.log(`enemy${i + 1} loaded`);
