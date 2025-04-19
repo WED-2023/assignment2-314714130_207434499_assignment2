@@ -145,7 +145,6 @@ function addFormHandlers(page) {
       e.preventDefault();
       const shootKey = document.getElementById("shootKey").value;
       const gameDuration = parseInt(document.getElementById("gameDuration").value);
-      const shipColor = document.getElementById("shipColor").value;
       const bulletColor = document.getElementById("bulletColor").value;
       if (gameDuration < 2) {
         alert("Minimum game duration is 2 minutes!");
@@ -155,7 +154,6 @@ function addFormHandlers(page) {
       localStorage.setItem("gameConfig", JSON.stringify({
         shootKey,
         gameDuration,
-        shipColor,
         bulletColor
       }));
       loadPage("game");

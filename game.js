@@ -34,9 +34,6 @@ const player = {
 };
 
 const config = JSON.parse(localStorage.getItem("gameConfig")) || {};
-if (config.shipColor) {
-    player.color = config.shipColor;
-}
 let shootKey = config.shootKey || " ";
 
 const enemyRows = 4;
