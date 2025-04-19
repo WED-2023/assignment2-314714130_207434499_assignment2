@@ -278,13 +278,19 @@ function stopGame() {
       }
   }
 
-function gameLoop() {
+  function gameLoop() {
     if (!gameOver && enemies.length > 0) {
         updatePlayer();
         updateEnemies();
         checkCollisions();
         increaseSpeed();
     }
+
+    if (gameOver && backgroundMusic) {
+        backgroundMusic.pause();
+        backgroundMusic.currentTime = 0;
+    }
+
     draw();
     animationFrameId = requestAnimationFrame(gameLoop);
 }
