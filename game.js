@@ -248,7 +248,7 @@ function draw() {
     // === 🟡 Score/Lives/Time with background ===
     const formattedTime = `${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`;
     const statusText = `Score: ${score}  Lives: ${playerLives}  Time: ${formattedTime}`;
-
+    ctx.textAlign = "left"; 
     ctx.font = "16px Arial";
     const textWidth = ctx.measureText(statusText).width;
     const padding = 10;
