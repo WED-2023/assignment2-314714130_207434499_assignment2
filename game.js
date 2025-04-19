@@ -339,13 +339,7 @@ function stopGame() {
         backgroundMusic.currentTime = 0;
       }
 
-    if (loggedInUser && score > 0) {
-        const key = `scores_${loggedInUser}`;
-        const history = JSON.parse(localStorage.getItem(key)) || [];
-        history.push(score);
-        history.sort((a, b) => b - a); // sort descending
-        localStorage.setItem(key, JSON.stringify(history));
-      }  
+ 
     if (!window.scoreSaved && loggedInUser ) {
     const key = `scores_${loggedInUser}`;
     const history = JSON.parse(localStorage.getItem(key)) || [];
