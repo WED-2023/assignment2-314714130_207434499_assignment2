@@ -246,13 +246,16 @@ function draw() {
     for (let b of enemyBullets) drawObject(b);
 
     //  Draw Score, Lives, Time
-    ctx.fillStyle = "black";
     ctx.font = "16px Arial";
+    ctx.fillStyle = "#ffff66"; // bright yellow
+    ctx.shadowColor = "black";
+    ctx.shadowBlur = 4;
     ctx.fillText(
-        `Score: ${score}  Lives: ${playerLives}  Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`,
-        10,
-        20
+      `Score: ${score}  Lives: ${playerLives}  Time: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}`,
+      10,
+      20
     );
+    ctx.shadowBlur = 0; // reset for next drawing
 
     //  Game End Messages
     if (gameOver || enemies.length === 0) {
