@@ -14,10 +14,10 @@ const enemyImages = [
     new Image()  // Row 3
   ];
   
-  enemyImages[0].src = "./photos1/enemy1.png";
-  enemyImages[1].src = "./photos1/enemy2.png";
-  enemyImages[2].src = "./photos1/enemy3.png";
-  enemyImages[3].src = "./photos1/enemy4.png";
+  enemyImages[0].src = "./photos1/enemy1.jpg";
+  enemyImages[1].src = "./photos1/enemy2.jpg";
+  enemyImages[2].src = "./photos1/enemy3.jpg";
+  enemyImages[3].src = "./photos1/enemy4.jpg";
 
 
 const shootSound = document.getElementById("shootSound");
