@@ -321,7 +321,7 @@ function draw() {
           }
           
 }
-
+}
 function stopGame() {
     if (animationFrameId) {
       cancelAnimationFrame(animationFrameId);
