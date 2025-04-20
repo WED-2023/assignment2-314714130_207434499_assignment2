@@ -300,7 +300,13 @@ function draw() {
           const fullHistory = JSON.parse(localStorage.getItem(key)) || [];
           
           // Get unique scores, sorted descending
-          const uniqueScores = [...new Set(fullHistory)].sort((a, b) => b - a);
+          const combinedHistory = [...fullHistory];
+          if (!combinedHistory.includes(score)) {
+            combinedHistory.push(score);
+          }
+          
+          // Get unique scores, sorted descending
+          const uniqueScores = [...new Set(combinedHistory)].sort((a, b) => b - a);
           const top = uniqueScores.slice(0, 5);
           
           // Find current score's rank based on full sorted history (including duplicates)
