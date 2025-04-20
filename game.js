@@ -378,6 +378,13 @@ function stopGame() {
     animationFrameId = requestAnimationFrame(gameLoop);
 }
 
+function endGame() {
+  if (!gameOver) {
+    gameOver = true;
+    stopGame();
+  }
+}
+
 window.addEventListener("load", () => {
     attachGameEvents();
   });
@@ -408,5 +415,7 @@ window.addEventListener("load", () => {
       setTimeout(attachGameEvents, 100);
     }
   }
+
+  
 
 

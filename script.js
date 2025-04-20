@@ -242,8 +242,8 @@ function startGameTimer(durationMinutes) {
     console.log("Time left:", timeLeft, "seconds");
     if (timeLeft <= 0) {
       clearInterval(gameTimer);
-      gameOver = true;
-    }
+      endGame();}
+
   }, 1000);
 }
 
@@ -297,6 +297,7 @@ function startGame() {
 function endGame() {
   if (gameTimer) clearInterval(gameTimer);
   gameOver = true;
+  stopGame(); 
 }
 
 
