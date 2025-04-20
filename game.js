@@ -296,13 +296,16 @@ function draw() {
 
         //  Leaderboard 
         if (loggedInUser) {
-            const key = `scores_${loggedInUser}`;
-            const history = JSON.parse(localStorage.getItem(key)) || [];
-            let rank = history.findIndex(s => s === score) + 1;
-            if (rank === 0 && history.length > 0) {
-              rank = history.length;
-            }
-            const top = history.slice(0, 5); // Top 5 scores
+          const key = `scores_${loggedInUser}`;
+          const fullHistory = JSON.parse(localStorage.getItem(key)) || [];
+          
+          // Get unique scores, sorted descending
+          const uniqueScores = [...new Set(fullHistory)].sort((a, b) => b - a);
+          const top = uniqueScores.slice(0, 5);
+          
+          // Find current score's rank based on full sorted history (including duplicates)
+          const sortedHistory = [...fullHistory].sort((a, b) => b - a);
+          const rank = sortedHistory.findIndex(s => s === score) + 1;
           
             ctx.font = "18px Arial";
             ctx.fillStyle = "white";
