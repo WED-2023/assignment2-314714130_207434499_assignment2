@@ -186,7 +186,7 @@ function checkCollisions() {
             enemyBullets = [];
             player.x = player.x = initialPlayerX;
             player.y = canvasHeight - player.height - 10;
-            if (playerLives === 0) gameOver = true;
+            if (playerLives === 0) endGame();
             break;
         }
     }
@@ -205,7 +205,7 @@ function startGameTimer(durationMinutes) {
         document.getElementById("timerDisplay").textContent = `Time left: ${minutes}:${seconds.toString().padStart(2, '0')}`;
         if (timeLeft <= 0) {
             clearInterval(gameTimer);
-            gameOver = true;
+            endGame();
             document.getElementById("timerDisplay").textContent = "Time's up!";
         }
     }, 1000);
@@ -366,7 +366,7 @@ function stopGame() {
         increaseSpeed();
       } else {
         gameOver = true;
-        stopGame(); 
+        endGame(); 
       }
     }
 
