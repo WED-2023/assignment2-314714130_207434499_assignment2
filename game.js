@@ -297,7 +297,7 @@ function draw() {
         //  Leaderboard 
         if (loggedInUser) {
           const key = `scores_${loggedInUser}`;
-          const fullHistory = JSON.parse(localStorage.getItem(key)) || [];
+          const fullHistory = JSON.parse(sessionStorage.getItem(key)) || [];
           
           // Get unique scores, sorted descending
           const combinedHistory = [...fullHistory];
