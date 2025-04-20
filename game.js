@@ -365,15 +365,13 @@ function stopGame() {
         checkCollisions();
         increaseSpeed();
       } else {
-        gameOver = true;
         endGame(); 
       }
     }
-
   
     draw();
     animationFrameId = requestAnimationFrame(gameLoop);
-}
+  }
 
 function endGame() {
   if (!gameOver) {
