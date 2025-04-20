@@ -349,15 +349,12 @@ function stopGame() {
       }
 
  
-    if (!window.scoreSaved && loggedInUser ) {
-    const key = `scores_${loggedInUser}`;
-    const history = JSON.parse(localStorage.getItem(key)) || [];
-    history.push(score);
-    history.sort((a, b) => b - a); // Sort from highest to lowest
-    localStorage.setItem(key, JSON.stringify(history));
-    window.scoreSaved = true; // prevent duplicate saving
-    console.log("Saving score", score, "for", loggedInUser);
-    }
+   
+
+    const restartBtn = document.getElementById("restartButton");
+    if (restartBtn) {
+    restartBtn.style.display = "inline-block";
+}
   }
 
   function gameLoop() {
@@ -385,6 +382,19 @@ function endGame() {
   }
 }
 
+
+function saveScore() {
+  if (!window.scoreSaved && loggedInUser) {
+    const key = `scores_${loggedInUser}`;
+    const history = JSON.parse(localStorage.getItem(key)) || [];
+    history.push(score);
+    history.sort((a, b) => b - a);
+    localStorage.setItem(key, JSON.stringify(history));
+    window.scoreSaved = true;
+    console.log("✅ Score saved:", score);
+  }
+}
+
 window.addEventListener("load", () => {
     attachGameEvents();
   });
@@ -402,6 +412,14 @@ window.addEventListener("load", () => {
 
     canvas.style.backgroundImage = "url('./photos1/game background.jpg')";
     const startBtn = document.getElementById("startButton");
+    const restartBtn = document.getElementById("restartButton");
+if (restartBtn) {
+  restartBtn.addEventListener("click", () => {
+    saveScore(); //   Only save if restart is clicked
+    startGame();
+    canvas.focus();
+  });
+}
   
     if (startBtn && canvas) {
       console.log("Start button found. Binding click...");

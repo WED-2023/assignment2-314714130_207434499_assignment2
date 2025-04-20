@@ -249,6 +249,11 @@ function startGameTimer(durationMinutes) {
 
 function startGame() {
   window.scoreSaved = false;
+const restartBtn = document.getElementById("restartButton");
+if (restartBtn) {
+  restartBtn.style.display = "none";
+}
+  window.scoreSaved = false;
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
   }
