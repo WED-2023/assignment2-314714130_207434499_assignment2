@@ -248,6 +248,7 @@ function startGameTimer(durationMinutes) {
 }
 
 function startGame() {
+  window.scoreSaved = false;
   if (animationFrameId) {
     cancelAnimationFrame(animationFrameId);
   }
@@ -255,7 +256,6 @@ function startGame() {
   for (let key in keys) {
     keys[key] = false;
   }
-  window.scoreSaved = false;
   playerLives = 3;
   score = 0;
   gameOver = false;
