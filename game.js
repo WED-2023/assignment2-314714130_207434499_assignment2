@@ -387,9 +387,9 @@ function saveScore() {
     const history = JSON.parse(localStorage.getItem(key)) || [];
     history.push(score);
     history.sort((a, b) => b - a);
-    localStorage.setItem(key, JSON.stringify(history));
+    sessionStorage.setItem(key, JSON.stringify(history));
     window.scoreSaved = true;
-    console.log("✅ Score saved:", score);
+   
   }
 }
 
