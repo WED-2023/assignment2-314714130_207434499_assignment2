@@ -142,7 +142,7 @@ function updateEnemies() {
                 y: shooter.y + shooter.height,
                 width: 5,
                 height: 10,
-                color: "black",
+                color: "blue",
             });
             lastEnemyShotTime = now;
         }
