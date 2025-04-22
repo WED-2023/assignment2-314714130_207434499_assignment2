@@ -324,7 +324,7 @@ function draw() {
               top.forEach((s, i) => {
                 ctx.fillText(`${i + 1}. ${s}`, canvasWidth / 2, canvasHeight / 2 + 90 + i * 25);
               });
-              ctx.fillText(`This game's rank: ${rank}`, canvasWidth / 2, canvasHeight / 2 + 90 + top.length * 25);
+              
             } else {
               ctx.fillText("No scores yet.", canvasWidth / 2, canvasHeight / 2 + 90);
             }
