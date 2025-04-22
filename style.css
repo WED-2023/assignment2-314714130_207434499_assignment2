@@ -160,3 +160,43 @@ body {
 .welcome-btn.login:hover {
   background-color: #0056b3;
 }
+
+
+#startButton,
+#restartButton {
+  padding: 12px 24px;
+  font-size: 1.1em;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+#startButton {
+  background-color: #007bff;
+  color: white;
+}
+
+#startButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+#restartButton {
+  background-color: #28a745;
+  color: white;
+}
+
+#restartButton:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
