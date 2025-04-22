@@ -109,10 +109,18 @@ body {
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
-  max-width: 90%;
+  width: 90%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
   position: relative;
 }
+
+#modal-content ul {
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
 
 #modal-close {
   position: absolute;
