@@ -133,7 +133,7 @@ function addFormHandlers(page) {
       // Check if the user exists in the users array
       if (userExists) {
         loggedInUser = username;
-        
+        updateAuthButton(); //  update nav to say Logout
         loadPage("config");
       } else {
         alert("Incorrect username or password");
@@ -219,17 +219,26 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  const logoutBtn = document.getElementById("logout-btn");
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", (e) => {
+  const authBtn = document.getElementById("auth-btn");
+  if (authBtn) {
+    authBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      loggedInUser = null;
-      localStorage.removeItem("gameConfig");
-      alert("You have been logged out.");
-      loadPage("login");
+      if (loggedInUser) {
+        
+        const key = `scores_${loggedInUser}`;
+        sessionStorage.removeItem(key);
+        localStorage.removeItem("gameConfig");
+        loggedInUser = null;
+        updateAuthButton(); // change text to "Login"
+        alert("You have been logged out.");
+        loadPage("login");
+      } else {
+        
+        loadPage("login");
+      }
     });
   }
-
+  updateAuthButton();
 });
 
 let gameTimer = null;
@@ -303,6 +312,13 @@ function endGame() {
   if (gameTimer) clearInterval(gameTimer);
   gameOver = true;
   stopGame(); 
+}
+
+function updateAuthButton() {
+  const authBtn = document.getElementById("auth-btn");
+  if (authBtn) {
+    authBtn.textContent = loggedInUser ? "Logout" : "Login";
+  }
 }
 
 
