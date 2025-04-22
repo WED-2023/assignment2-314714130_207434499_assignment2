@@ -1,3 +1,13 @@
+html, body {
+  height: auto;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+
+
 .header-balanced {
   display: flex;
   align-items: center;
@@ -40,8 +50,9 @@ body {
   #container {
     max-width: 960px;
     margin: auto;
-    background-color: lightcyan;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   
   header {
@@ -83,10 +94,9 @@ body {
   }
   
   main {
+    flex-grow: 1;
     padding: 20px;
-    min-height: 400px;
   }
-
 
   /* Modal overlay */
 #modal-overlay {
