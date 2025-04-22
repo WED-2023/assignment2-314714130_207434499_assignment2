@@ -384,7 +384,7 @@ function endGame() {
 function saveScore() {
   if (!window.scoreSaved && loggedInUser) {
     const key = `scores_${loggedInUser}`;
-    const history = JSON.parse(localStorage.getItem(key)) || [];
+    const history = JSON.parse(sessionStorage.getItem(key)) || [];
     history.push(score);
     history.sort((a, b) => b - a);
     sessionStorage.setItem(key, JSON.stringify(history));
