@@ -46,3 +46,8 @@ The soundtrack of the game is the original sound of Chicken invaders!
 
 - **Yuval Livshits** – yuvalliv@post.bgu.ac.il  
 - **Guy Korenfeld** – korenfgu@post.bgu.ac.il
+
+Yuval Livshits - 207434499
+Guy Korenfeld - 314714130
+
+link for the website: https://wed-2023.github.io/assignment2-314714130_207434499_assignment2/
