@@ -217,12 +217,12 @@ body {
 
 
 
-.project-links-vertical {
+.project-links {
   margin: 10px 0 15px 0;
   text-align: left;
 }
 
-.project-links-vertical a {
+.project-links a {
   display: inline-block;
   margin: 6px 0;
   padding: 6px 10px;
